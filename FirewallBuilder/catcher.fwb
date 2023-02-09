@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE FWObjectDatabase SYSTEM "fwbuilder.dtd">
-<FWObjectDatabase xmlns="http://www.fwbuilder.org/1.0/" version="24" lastModified="1637157018" id="root">
+<FWObjectDatabase xmlns="http://www.fwbuilder.org/1.0/" version="24" lastModified="1655744865" id="root">
   <Library id="syslib000" color="#d4f8ff" name="Standard" comment="Standard objects" ro="True">
     <AnyNetwork id="sysid0" name="Any" comment="Any Network" ro="False" address="0.0.0.0" netmask="0.0.0.0"/>
     <AnyIPService id="sysid1" protocol_num="0" name="Any" comment="Any IP Service" ro="False"/>
@@ -673,6 +673,9 @@
         <IPv4 id="id6367X8136" name="dhxmedia1" comment="" ro="False" address="209.15.25.130" netmask="0.0.0.0"/>
         <IPv4 id="id6382X8136" name="dhxmedia2" comment="" ro="False" address="209.15.25.128" netmask="0.0.0.0"/>
         <IPv4 id="id9738X4102" name="Corus Pitcher 2" comment="" ro="False" address="64.141.104.176" netmask="0.0.0.0"/>
+        <IPv4 id="id9741X483953" name="stingray temp 1" comment="" ro="False" address="192.48.220.70" netmask="0.0.0.0"/>
+        <IPv4 id="id9750X483953" name="stingray temp 2" comment="" ro="False" address="192.48.220.48" netmask="0.0.0.0"/>
+        <IPv4 id="id9761X483953" name="stingray temp 3" comment="" ro="False" address="192.48.220.50" netmask="0.0.0.0"/>
       </ObjectGroup>
       <ObjectGroup id="id1585X7075" name="DNS Names" comment="" ro="False"/>
       <ObjectGroup id="id1586X7075" name="Address Tables" comment="" ro="False"/>
@@ -694,6 +697,9 @@
           <ObjectRef ref="id5701X20152"/>
           <ObjectRef ref="id5716X20152"/>
           <ObjectRef ref="id6379X5395"/>
+          <ObjectRef ref="id9741X483953"/>
+          <ObjectRef ref="id9750X483953"/>
+          <ObjectRef ref="id9761X483953"/>
         </ObjectGroup>
         <ObjectGroup id="id3053X6008" name="Corus Entertainment" comment="" ro="False">
           <ObjectRef ref="id4769X7075"/>
@@ -751,7 +757,7 @@
       <ServiceGroup id="id1599X7075" name="TagServices" comment="" ro="False"/>
     </ServiceGroup>
     <ObjectGroup id="id1600X7075" name="Firewalls" comment="" ro="False">
-      <Firewall id="id4090X7075" host_OS="linux24" inactive="False" lastCompiled="1598448086" lastInstalled="0" lastModified="1637157063" platform="iptables" version="" name="corusent_catcher" comment="This firewall has two interfaces. Eth0 faces outside and has a dynamic address; eth1 faces inside.&#10;Policy includes basic rules to permit unrestricted outbound access and anti-spoofing rules. Access to the firewall is permitted only from internal network and only using SSH. The firewall uses one of the machines on internal network for DNS. Internal network is configured with address 192.168.1.0/255.255.255.0" ro="False">
+      <Firewall id="id4090X7075" host_OS="linux24" inactive="False" lastCompiled="1675882499" lastInstalled="0" lastModified="1675882434" platform="iptables" version="" name="corusent_catcher" comment="This firewall has two interfaces. Eth0 faces outside and has a dynamic address; eth1 faces inside.&#10;Policy includes basic rules to permit unrestricted outbound access and anti-spoofing rules. Access to the firewall is permitted only from internal network and only using SSH. The firewall uses one of the machines on internal network for DNS. Internal network is configured with address 192.168.1.0/255.255.255.0" ro="False">
         <NAT id="id4111X7075" name="NAT" comment="" ro="False" ipv4_rule_set="False" ipv6_rule_set="False" top_rule_set="True">
           <RuleSetOptions/>
         </NAT>
@@ -774,7 +780,27 @@
             </When>
             <PolicyRuleOptions/>
           </PolicyRule>
-          <PolicyRule id="id2986X7539" disabled="False" group="" log="True" position="1" action="Accept" direction="Both" comment="">
+          <PolicyRule id="id9783X143609" disabled="False" group="" log="False" position="1" action="Accept" direction="Both" comment="">
+            <Src neg="False">
+              <ObjectRef ref="sysid0"/>
+            </Src>
+            <Dst neg="False">
+              <ObjectRef ref="id4090X7075"/>
+            </Dst>
+            <Srv neg="False">
+              <ServiceRef ref="id3C20EEB5"/>
+            </Srv>
+            <Itf neg="False">
+              <ObjectRef ref="sysid0"/>
+            </Itf>
+            <When neg="False">
+              <IntervalRef ref="sysid2"/>
+            </When>
+            <PolicyRuleOptions>
+              <Option name="stateless">False</Option>
+            </PolicyRuleOptions>
+          </PolicyRule>
+          <PolicyRule id="id2986X7539" disabled="False" group="" log="True" position="2" action="Accept" direction="Both" comment="">
             <Src neg="False">
               <ObjectRef ref="id4090X7075"/>
             </Src>
@@ -794,7 +820,7 @@
               <Option name="stateless">False</Option>
             </PolicyRuleOptions>
           </PolicyRule>
-          <PolicyRule id="id4216X7075" disabled="False" group="" log="False" position="2" action="Accept" direction="Both" comment="SSH Access to firewall is permitted&#10;only from internal network">
+          <PolicyRule id="id4216X7075" disabled="False" group="" log="False" position="3" action="Accept" direction="Both" comment="SSH Access to firewall is permitted&#10;only from internal network">
             <Src neg="False">
               <ObjectRef ref="id2999X6017"/>
             </Src>
@@ -815,7 +841,7 @@
             </When>
             <PolicyRuleOptions/>
           </PolicyRule>
-          <PolicyRule id="id4844X7075" disabled="False" group="" log="True" position="3" action="Accept" direction="Both" comment="Allow access from content &#10;provider pitcher to signiant agent.&#10;">
+          <PolicyRule id="id4844X7075" disabled="False" group="" log="True" position="4" action="Accept" direction="Both" comment="Allow access from content &#10;provider pitcher to signiant agent.&#10;">
             <Src neg="False">
               <ObjectRef ref="id3053X6008"/>
             </Src>
@@ -835,7 +861,7 @@
               <Option name="stateless">False</Option>
             </PolicyRuleOptions>
           </PolicyRule>
-          <PolicyRule id="id3033X6008" disabled="False" group="" log="True" position="4" action="Accept" direction="Both" comment="FTP access for Stingray to upload VOD">
+          <PolicyRule id="id3033X6008" disabled="False" group="" log="True" position="5" action="Accept" direction="Both" comment="FTP access for Stingray to upload VOD">
             <Src neg="False">
               <ObjectRef ref="id3013X6008"/>
             </Src>
@@ -858,7 +884,7 @@
               <Option name="stateless">False</Option>
             </PolicyRuleOptions>
           </PolicyRule>
-          <PolicyRule id="id4272X7075" disabled="False" group="" log="True" position="5" action="Deny" direction="Both" comment="All other attempts to connect to&#10;the firewall are denied and logged">
+          <PolicyRule id="id4272X7075" disabled="False" group="" log="True" position="6" action="Deny" direction="Both" comment="All other attempts to connect to&#10;the firewall are denied and logged">
             <Src neg="False">
               <ObjectRef ref="sysid0"/>
             </Src>
@@ -902,7 +928,7 @@
               <Option name="ulog_nlgroup">1</Option>
             </PolicyRuleOptions>
           </PolicyRule>
-          <PolicyRule id="id4328X7075" disabled="False" group="" log="True" position="6" action="Deny" direction="Both" comment="">
+          <PolicyRule id="id4328X7075" disabled="False" group="" log="True" position="7" action="Deny" direction="Both" comment="">
             <Src neg="False">
               <ObjectRef ref="sysid0"/>
             </Src>
@@ -1011,11 +1037,11 @@
           <Option name="verify_interfaces">true</Option>
         </FirewallOptions>
       </Firewall>
-      <Firewall id="id5011X7075" host_OS="linux24" inactive="False" lastCompiled="1628881285" lastInstalled="0" lastModified="1628881839" platform="iptables" version="" name="dhxmedia_catcher" comment="This firewall has two interfaces. Eth0 faces outside and has a dynamic address; eth1 faces inside.&#10;Policy includes basic rules to permit unrestricted outbound access and anti-spoofing rules. Access to the firewall is permitted only from internal network and only using SSH. The firewall uses one of the machines on internal network for DNS. Internal network is configured with address 192.168.1.0/255.255.255.0" ro="False">
+      <Firewall id="id5011X7075" host_OS="linux24" inactive="False" lastCompiled="1660329500" lastInstalled="0" lastModified="1675882383" platform="iptables" version="" name="dhxmedia_catcher" comment="This firewall has two interfaces. Eth0 faces outside and has a dynamic address; eth1 faces inside.&#10;Policy includes basic rules to permit unrestricted outbound access and anti-spoofing rules. Access to the firewall is permitted only from internal network and only using SSH. The firewall uses one of the machines on internal network for DNS. Internal network is configured with address 192.168.1.0/255.255.255.0" ro="False">
         <NAT id="id5205X7075" name="NAT" comment="" ro="False" ipv4_rule_set="False" ipv6_rule_set="False" top_rule_set="True">
           <RuleSetOptions/>
         </NAT>
-        <Policy id="id5034X7075" name="Policy" comment="" ro="False" ipv4_rule_set="False" ipv6_rule_set="False" top_rule_set="True">
+        <Policy id="id5034X7075" name="Policy" comment="" ro="False" ipv4_rule_set="True" ipv6_rule_set="True" top_rule_set="True">
           <PolicyRule id="id5036X7075" disabled="False" group="" log="False" position="0" action="Accept" direction="Both" comment="">
             <Src neg="False">
               <ObjectRef ref="sysid0"/>
@@ -1183,7 +1209,9 @@
               <Option name="ulog_nlgroup">1</Option>
             </PolicyRuleOptions>
           </PolicyRule>
-          <RuleSetOptions/>
+          <RuleSetOptions>
+            <Option name="mangle_only_rule_set">False</Option>
+          </RuleSetOptions>
         </Policy>
         <Routing id="id5208X7075" name="Routing" comment="" ro="False" ipv4_rule_set="False" ipv6_rule_set="False" top_rule_set="True">
           <RuleSetOptions/>
